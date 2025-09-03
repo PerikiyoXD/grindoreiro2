@@ -1,148 +1,158 @@
-# GRINDOREIRO v2.0
-Python utilities to unpack Grandoreiro .ZIPs with .MSI sample.
+# GRINDOREIRO v1.0.0
 
-This is a refactored and improved version of the original Grindoreiro toolkit for analyzing and unpacking Grandoreiro malware samples.
+> Malware analysis toolkit for Grandoreiro samples
 
-## Features
+A comprehensive toolkit for analyzing and unpacking Grandoreiro malware samples with batch processing, interactive HTML reports, and modern Python packaging.
 
-- **Pipeline Architecture**: Modular processing pipeline with proper metadata collection
-- **Comprehensive Results**: Detailed analysis results with JSON output and human-readable reports
-- **Stage-based Processing**: Each processing stage is isolated and can be monitored independently
-- **Modular Architecture**: Clean separation of concerns with dedicated modules
-- **Proper Error Handling**: Comprehensive exception handling and logging
-- **Type Hints**: Full type annotations for better code maintainability
-- **Configuration Management**: Centralized configuration with sensible defaults
-- **CLI Interface**: Improved command-line interface with better argument handling
-- **Logging**: Structured logging with configurable verbosity levels
+[![GitHub](https://img.shields.io/badge/GitHub-PerikiyoXD/grindoreiro2-blue)](https://github.com/PerikiyoXD/grindoreiro2)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Components
+## ✨ Features
 
-- `grindoreiro.py`: Main entry point (legacy compatibility)
-- `grindoreiro/`: Main package
-  - `core.py`: Configuration and utilities
-  - `extractor.py`: File extraction utilities
-  - `analyzer.py`: String analysis and URL extraction
-  - `iso_handler.py`: ISO download and decoding
-  - `processor.py`: Main processing orchestration
-  - `pipeline.py`: Pipeline architecture and results management
-  - `pipeline_steps.py`: Concrete pipeline step implementations
-  - `cli.py`: Command-line interface
-  - `scripts/`: Standalone utility scripts
+- **🔄 Batch Processing**: Parallel analysis of multiple samples with progress tracking
+- **📊 Interactive HTML Reports**: Deduplication, search, filtering, and export capabilities
+- **🏗️ Modern Architecture**: Modular pipeline with proper error handling and logging
+- **⚡ Fast Analysis**: Optimized processing with type hints and structured logging
+- **🛠️ CLI Tools**: Comprehensive command-line interface with flexible options
+- **📦 Easy Installation**: Modern Python packaging with uv support
 
-## Installation
+## 🚀 Quick Start
+
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Analyze a single sample
+python grindoreiro.py sample.zip
+
+# 3. Analyze all samples in batch
+python batch_analyze_all.py
+
+# 4. Generate HTML reports
+python batch_html_report.py
+```
+
+## 📦 Installation
 
 ### Prerequisites
 
-Download the latest WiX Toolset from: https://wixtoolset.org/releases/
-- Extract `wix311-binaries.zip`
-- Place `dark.exe` in `./tools/wix/` directory
+1. **WiX Toolset** (for MSI decompilation):
+   - Download from: https://wixtoolset.org/releases/
+   - Extract `wix311-binaries.zip`
+   - Place `dark.exe` in `./tools/wix/` directory
 
 ### Setup
 
-1. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. (Optional) Install as package:
-   ```bash
-   pip install -e .
-   ```
-
-## Directory Structure
-
-The tool organizes files in the following structure:
-
-```
-./data/
-├── samples/          # Original sample files
-├── cache/           # Cached downloads (ISOs, etc.)
-├── temp/            # Temporary processing data (auto-cleaned)
-└── output/          # Final results and reports
-```
-
-## Usage
-
-### Main Tool
-
-Process a Grandoreiro sample:
 ```bash
-python grindoreiro.py sample.zip
-# or if installed as package:
-grindoreiro sample.zip
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+# or using uv (recommended):
+uv pip install -r requirements.txt
+
+# Optional: Install as package
+pip install -e .
 ```
+
+## 📖 Usage
+
+### Core Commands
+
+| Command | Description |
+|---------|-------------|
+| `python grindoreiro.py sample.zip` | Analyze single sample |
+| `python batch_analyze_all.py` | Analyze all samples in parallel |
+| `python batch_html_report.py` | Generate HTML reports |
+| `python demo_analysis.py` | Run demonstration |
 
 ### Advanced Usage
 
 ```bash
-# Specify custom paths
-python -m grindoreiro.cli sample.zip --dark-path /path/to/dark.exe --verbose
+# Custom paths and options
+python -m grindoreiro.cli sample.zip \
+  --dark-path /path/to/dark.exe \
+  --samples-dir ./my_samples \
+  --output-dir ./my_output \
+  --verbose
 
-# Use custom directories
-python -m grindoreiro.cli sample.zip --samples-dir ./my_samples --output-dir ./my_output
-
-# Enable debug logging
-python -m grindoreiro.cli sample.zip --verbose
+# Individual tools
+python stringripper.py file.dll --verbose --min-length 6
+python isoabduct.py http://example.com/fake.iso --output ./output
 ```
 
-### Individual Tools
-
-#### String Extractor
-```bash
-python stringripper.py file.dll
-# or
-python -m grindoreiro.scripts.stringripper file.dll --verbose --min-length 6
-```
-
-#### ISO Handler
-```bash
-python isoabduct.py http://example.com/fake.iso
-# or
-python -m grindoreiro.scripts.isoabduct http://example.com/fake.iso --output ./output
-```
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 grindoreiro/
-├── grindoreiro/
-│   ├── __init__.py
-│   ├── __main__.py
-│   ├── core.py          # Configuration and utilities
-│   ├── extractor.py     # File extraction (ZIP, MSI)
-│   ├── analyzer.py      # String analysis and URL extraction
-│   ├── iso_handler.py   # ISO download/decoding
-│   ├── processor.py     # Main processing logic
-│   ├── cli.py           # Command-line interface
-│   └── scripts/
-│       ├── stringripper.py
-│       └── isoabduct.py
-├── grindoreiro.py       # Legacy entry point
-├── stringripper.py      # Standalone string extractor
-├── isoabduct.py         # Standalone ISO handler
-├── setup.py
-├── requirements.txt
-└── README.md
+├── grindoreiro/              # Main package
+│   ├── core.py               # Configuration & utilities
+│   ├── cli.py                # Command-line interface
+│   ├── processor.py          # Main processing logic
+│   ├── extractor.py          # File extraction (ZIP, MSI)
+│   ├── analyzer.py           # String analysis & URL extraction
+│   ├── iso_handler.py        # ISO download/decoding
+│   ├── pipeline.py           # Pipeline architecture
+│   └── scripts/              # Standalone utilities
+├── batch_*.py                # Batch processing tools
+├── html_*.py                 # HTML report generators
+├── demo_analysis.py          # Demonstration script
+├── pyproject.toml            # Modern packaging
+├── uv.lock                   # Dependency lock
+└── requirements.txt          # Dependencies
 ```
 
-## Configuration
+## 🏗️ Architecture
 
-The tool uses sensible defaults but can be configured:
+### Pipeline Stages
 
-- **WiX Path**: `./tools/wix/dark.exe`
-- **Samples Directory**: `./samples/`
-- **Output Directory**: `./output/`
-- **User Agent**: Firefox-compatible string
+1. **Extraction**: Unpack ZIP and MSI files
+2. **Analysis**: Extract strings and URLs
+3. **Processing**: Analyze patterns and indicators
+4. **Reporting**: Generate JSON and HTML reports
 
-## Development
+### Key Components
 
-### Running Tests
+- **Pipeline Architecture**: Modular processing with metadata collection
+- **Error Handling**: Comprehensive exception handling
+- **Type Safety**: Full type annotations throughout
+- **Configuration**: Centralized settings with sensible defaults
+- **Logging**: Structured logging with configurable levels
+
+## 📊 HTML Reports
+
+Interactive HTML reports with advanced features:
+
+- **🔍 Search & Filter**: Real-time filtering of files, URLs, and strings
+- **📋 Deduplication**: Automatic grouping of duplicate content
+- **📤 Export**: Download findings as JSON or CSV
+- **📱 Responsive**: Works on desktop and mobile devices
+- **🎨 Modern UI**: Clean, professional interface
+
+```bash
+# Generate reports
+python html_report_generator.py data/output/sample_analysis.json
+python batch_html_report.py  # Generate all reports
+```
+
+See [`HTML_REPORT_README.md`](HTML_REPORT_README.md) for detailed documentation.
+
+## ⚙️ Configuration
+
+The tool uses sensible defaults but can be customized:
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| WiX Path | `./tools/wix/dark.exe` | Path to WiX decompiler |
+| Samples Dir | `./data/samples/` | Input directory |
+| Output Dir | `./data/output/` | Results directory |
+| User Agent | Firefox-compatible | HTTP user agent |
+
+## 🛠️ Development
+
+### Testing
 
 ```bash
 python -m pytest
@@ -161,17 +171,48 @@ python -m flake8 grindoreiro/
 python -m black grindoreiro/
 ```
 
-## Changes from v1.0
+### Building
 
-- **Refactored Architecture**: Modular design with clear separation of concerns
-- **Error Handling**: Proper exception handling instead of bare `except` clauses
-- **Logging**: Structured logging with configurable levels
-- **Type Safety**: Full type hints throughout the codebase
-- **Configuration**: Centralized configuration management
-- **CLI Improvements**: Better argument parsing and help messages
-- **Documentation**: Comprehensive docstrings and improved README
-- **Maintainability**: Cleaner code structure and better naming conventions
+```bash
+# Build package
+python -m build
 
-## License
+# Install locally
+pip install -e .
+```
 
-This project is provided as-is for educational and research purposes.
+## 📋 Directory Structure
+
+The tool organizes files as follows:
+
+```
+./data/
+├── samples/          # Input: Original sample files
+├── cache/           # Cache: Downloaded ISOs, etc.
+├── temp/            # Temp: Auto-cleaned processing data
+└── output/          # Output: Analysis results and reports
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is provided **as-is** for educational and research purposes.
+
+**MIT License** - see [LICENSE](LICENSE) for details.
+
+## 🔗 Links
+
+- **GitHub**: https://github.com/PerikiyoXD/grindoreiro2
+- **Issues**: https://github.com/PerikiyoXD/grindoreiro2/issues
+- **WiX Toolset**: https://wixtoolset.org/releases/
+
+---
+
+*Built with ❤️ for malware analysis and research*
