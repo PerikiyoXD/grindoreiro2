@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grindoreiro"
+version = "1.0.0"
+description = "Malware analysis toolkit for Grandoreiro samples"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Security",
+]
+dependencies = [
+    "requests>=2.24.0",
+    "certifi>=2020.6.20",
+    "chardet>=3.0.4",
+    "idna>=2.10",
+    "urllib3>=1.25.10",
+    "pytest>=7.4.4",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/PerikiyoXD/grindoreiro"
+"Bug Reports" = "https://github.com/PerikiyoXD/grindoreiro/issues"
+"Source" = "https://github.com/PerikiyoXD/grindoreiro"
+
+[project.scripts]
+grindoreiro = "grindoreiro.cli:main"
+stringripper = "grindoreiro.scripts.stringripper:main"
+isoabduct = "grindoreiro.scripts.isoabduct:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88

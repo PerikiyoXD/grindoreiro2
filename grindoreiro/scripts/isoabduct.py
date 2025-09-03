@@ -1,13 +1,12 @@
-#!/usr/bin/env python3
 """ISO download and decoding utility."""
 
 import argparse
 import sys
 from pathlib import Path
 
-from grindoreiro.iso_handler import ISODownloader
-from grindoreiro.extractor import FileExtractor
-from grindoreiro.core import setup_logging
+from ..iso_handler import ISODownloader
+from ..extractor import FileExtractor
+from ..core import setup_logging
 
 
 def main():
@@ -80,4 +79,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-        

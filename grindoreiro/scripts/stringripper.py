@@ -1,12 +1,11 @@
-#!/usr/bin/env python3
 """String extraction utility for binary files."""
 
 import argparse
 import sys
 from pathlib import Path
 
-from grindoreiro.analyzer import StringExtractor
-from grindoreiro.core import setup_logging
+from ..analyzer import StringExtractor
+from ..core import setup_logging
 
 
 def main():
